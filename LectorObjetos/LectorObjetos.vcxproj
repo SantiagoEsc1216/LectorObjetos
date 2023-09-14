@@ -128,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cara.h" />
+    <ClInclude Include="Lector.h" />
     <ClInclude Include="Modelo.h" />
     <ClInclude Include="Vertice.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cara.cpp" />
+    <ClCompile Include="Lector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Modelo.cpp" />
     <ClCompile Include="Vertice.cpp" />
