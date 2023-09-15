@@ -1,11 +1,19 @@
 #pragma once
 #include <iostream>
+#include <string>
+
+
+using namespace std;
+
 class Modelo
 {
 public:
-	char objeto;
+	string objeto;
 	Modelo();
-	Modelo(char ob);
-	char getModelo();
+	Modelo(string ob);
+
+	void setModelo(string obj);
+	string getModelo();
+
 };
 

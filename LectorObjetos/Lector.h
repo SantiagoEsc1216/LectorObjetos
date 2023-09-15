@@ -6,6 +6,7 @@
 #include "Vertice.h"
 #include "Cara.h"
 #include "Modelo.h"
+#include <sstream>
 
 using namespace std;
 
@@ -14,17 +15,21 @@ class Lector
 private:
 	string archivo;
 public:
-	vector <string> lineas;
 	string linea;
 	vector<Vertice> vertices;
 	vector<Cara> caras;
-	Modelo obj;
+	Modelo modelo;
+	int contadorId;
 
 	Lector();
 
 	void leerArchivo(string archivo);
 
 	void imprimirObjeto();
+
+	void guardarModelo(string linea);
+	void guardarVertice(string linea);
+	void guardarCara(string linea);
 		
 };
 

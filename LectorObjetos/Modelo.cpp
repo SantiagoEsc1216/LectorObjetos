@@ -4,10 +4,14 @@ Modelo::Modelo() {
 	this->objeto = ' ';
 }
 
-Modelo::Modelo(char obj) {
+Modelo::Modelo(string obj) {
 	this->objeto = obj;
 }
 
-char Modelo::getModelo() {
+void Modelo::setModelo(string obj) {
+	this->objeto = obj;
+}
+
+string Modelo::getModelo() {
 	return this->objeto;
 }
