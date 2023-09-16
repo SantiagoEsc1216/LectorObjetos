@@ -33,5 +33,13 @@ void Modelo::imprimirModelo() {
 		}
 		cout << endl;
 	}
+}
 
+
+Vertice Modelo::getVertice(int id) {
+	for (Vertice v : vertices) {
+		if (v.getId() == id) {
+			return v;
+		}
+	}
 }

@@ -2,18 +2,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include "Lector.h"
 
 float grados = 0;
 void display(void)
 {
+	Lector lector;
+	vector<Modelo> modelos;
+	Vertice v;
+
+	modelos = lector.leerArchivo("prueba.obj");
+	
 	/*  clear all pixels  */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_TRIANGLES);
-	glVertex3f(0.25, 0.75, 0.0);
-	glVertex3f(0.5, 0.75, 0.0);
-	glVertex3f(0.5, 0.9, 0.0);
+	for (Modelo modelo : modelos) {
+		for (Cara cara : modelo.caras) {
+			v = modelo.getVertice(cara.v1);
+			glVertex3f(v.getX(), v.getY(), v.getZ());
+			v = modelo.getVertice(cara.v2);
+			glVertex3f(v.getX(), v.getY(), v.getZ());
+			v = modelo.getVertice(cara.v3);
+			glVertex3f(v.getX(), v.getY(), v.getZ());
+		}
+	}
 	glEnd();
 
 	glutSwapBuffers();
@@ -37,7 +51,7 @@ void init(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(0.0, 5.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(7.3, 6.9, 4.9, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	glEnable(GL_DEPTH_TEST);
 

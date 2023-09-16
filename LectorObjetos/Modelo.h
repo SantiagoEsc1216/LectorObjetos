@@ -21,5 +21,5 @@ public:
 	string getModelo();
 
 	void imprimirModelo();
+	Vertice getVertice(int id);
 };
-
