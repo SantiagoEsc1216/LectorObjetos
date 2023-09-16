@@ -3,9 +3,10 @@
 
 Lector::Lector() {
 	contadorId = 1;
+	indexModelo = -1;
 }
 
-Modelo Lector::leerArchivo(string archivo) {
+vector<Modelo> Lector::leerArchivo(string archivo) {
 	vector <string> lineas;
 	ifstream file(archivo);
 	if (!file.is_open()) {
@@ -30,32 +31,15 @@ Modelo Lector::leerArchivo(string archivo) {
 			}
 		}
 	}
-	return modelo;
-}
-
-void Lector::imprimirObjeto() {
-	cout << "o: " << modelo.getModelo() << endl;
-
-
-	for(Vertice v : modelo.vertices)
-	{
-		cout <<fixed <<"v: " << v.getX() <<" " << v.getY() << " " << v.getZ() << endl;
-	}
-	
-	for (Cara c : modelo.caras) {
-		cout << "f: ";
-		for (int v : c.getVertices()) {
-			cout << v << " ";
-		}
-		cout << endl;
-	}
+	return modelos;
 }
 
 void Lector::guardarModelo(string linea) {
 
 	linea.erase(0, 2);
-	modelo.setModelo(linea);
-
+	Modelo m(linea);
+	modelos.push_back(m);
+	indexModelo++;
 }
 
 void Lector::guardarVertice(string linea) {
@@ -72,7 +56,7 @@ void Lector::guardarVertice(string linea) {
 	v.serPuntos(p);
 	v.setId(contadorId);
 	contadorId++;
-	modelo.vertices.push_back(v);
+	modelos[indexModelo].vertices.push_back(v);
 
 }
 
@@ -87,5 +71,5 @@ void Lector::guardarCara(string linea) {
 	}
 	Cara c;
 	c.setVertices(v);
-	modelo.caras.push_back(c);
+	modelos[indexModelo].caras.push_back(c);
 }

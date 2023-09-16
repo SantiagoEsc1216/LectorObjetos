@@ -14,14 +14,13 @@ private:
 	string archivo;
 public:
 	string linea;
-	Modelo modelo;
+	vector<Modelo> modelos;
 	int contadorId;
+	int indexModelo;
 
 	Lector();
 
-	Modelo leerArchivo(string archivo);
-
-	void imprimirObjeto();
+	vector<Modelo> leerArchivo(string archivo);
 
 	void guardarModelo(string linea);
 	void guardarVertice(string linea);

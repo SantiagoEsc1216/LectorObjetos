@@ -3,10 +3,13 @@
 int main() {
 
 	Lector lector;
-	Modelo modelo;
+	vector<Modelo> modelos;
 
-	modelo = lector.leerArchivo("objeto.obj");
-	modelo.imprimirModelo();
+	modelos = lector.leerArchivo("prueba.obj");
+	
+	for (Modelo modelo : modelos) {
+		modelo.imprimirModelo();
+	}
 
 	return 0;
 }
