@@ -3,8 +3,6 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include "Vertice.h"
-#include "Cara.h"
 #include "Modelo.h"
 #include <sstream>
 
@@ -16,14 +14,12 @@ private:
 	string archivo;
 public:
 	string linea;
-	vector<Vertice> vertices;
-	vector<Cara> caras;
 	Modelo modelo;
 	int contadorId;
 
 	Lector();
 
-	void leerArchivo(string archivo);
+	Modelo leerArchivo(string archivo);
 
 	void imprimirObjeto();
 

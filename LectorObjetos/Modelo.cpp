@@ -15,3 +15,23 @@ void Modelo::setModelo(string obj) {
 string Modelo::getModelo() {
 	return this->objeto;
 }
+
+void Modelo::imprimirModelo() {
+
+	cout << "o: " << objeto << endl;
+
+
+	for (Vertice v : vertices)
+	{
+		cout << fixed << "v: " << v.getX() << " " << v.getY() << " " << v.getZ() << endl;
+	}
+
+	for (Cara c : caras) {
+		cout << "f: ";
+		for (int v : c.getVertices()) {
+			cout << v << " ";
+		}
+		cout << endl;
+	}
+
+}

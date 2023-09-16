@@ -3,8 +3,10 @@
 int main() {
 
 	Lector lector;
+	Modelo modelo;
 
-	lector.leerArchivo("objeto.obj");
-	lector.imprimirObjeto();
+	modelo = lector.leerArchivo("objeto.obj");
+	modelo.imprimirModelo();
+
 	return 0;
 }
