@@ -27,6 +27,9 @@
     <ClInclude Include="Lector.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="Matriz.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vertice.cpp">
@@ -42,6 +45,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Lector.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Matriz.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

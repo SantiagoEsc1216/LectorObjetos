@@ -5,12 +5,12 @@ class Vertice
 {
 public:
 	int id;
-	float x, y, z;
+	float x, y, z, w;
 
 	Vertice(float x, float y, float z, int id);
 	Vertice();
 
-	void serPuntos(vector<float> p);
+	void setPuntos(vector<float> p);
 	void setId(int id);
 
 	int getId();

@@ -53,7 +53,7 @@ void Lector::guardarVertice(string linea) {
 		p.push_back(stof(token));
 	}
 	Vertice v;
-	v.serPuntos(p);
+	v.setPuntos(p);
 	v.setId(contadorId);
 	contadorId++;
 	modelos[indexModelo].vertices.push_back(v);

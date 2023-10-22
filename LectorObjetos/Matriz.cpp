@@ -1,0 +1,78 @@
+#include "Matriz.h"
+
+Matriz::Matriz() {
+	matriz.resize(4, vector<float>(4, 0.0));
+	this->tipo = -1;
+}
+
+Matriz::Matriz(float x, float y, float z, int tipo) {
+
+	vector<float> v{ x, y, z };
+	matriz.resize(4, vector<float>(4, 0.0));
+	this->tipo = tipo;
+
+	switch (tipo)
+	{
+	case MATRIZ_ESCALACION:
+		for (int i = 0; i < 3; i++) {
+			matriz[i][i] = v[i];
+		}
+		matriz[3][3] = 1;
+		break;
+	case MATRIZ_TRASLACION:
+		for (int i = 0; i < 3; i++) {
+			matriz[i][i] = 1;
+			matriz[i][3] = v[i];
+		}
+		matriz[3][3] = 1;
+		break;
+	default:
+		break;
+	}
+}
+
+Matriz::Matriz(float grados, int eje) {
+	double pi = 3.14159265359;
+	double radianes = grados * (pi / 180.0);
+
+	this->tipo = MATRIZ_ROTACION;
+	matriz.resize(4, vector<float>(4, 0.0));
+
+	switch (eje)
+	{
+	case EJE_Y:
+		matriz[0][0] = matriz[2][2] = cos(radianes);
+		matriz[1][1] = 1;
+		matriz[0][2] = sin(radianes);
+		matriz[2][0] = -sin(radianes);
+		matriz[3][3] = 1;
+		break;
+	default:
+		break;
+	}
+}
+Matriz::Matriz(vector<vector<float>> m) {
+	matriz = m;
+}
+
+vector<vector<float>> Matriz::multiplicar(vector<vector<float>> matriz2) {
+	vector<vector<float>> result(4, vector<float>(4, 0.0));
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			for (int k = 0; k < 4; k++) {
+				result[i][j] += matriz[i][k] * matriz[k][j];
+			}
+		}
+	}
+	return result;
+}
+
+vector<float> Matriz::multiplicar(vector<float> v){
+	vector<float> result(4, 0.0);
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			result[i] += matriz[i][j] * v[j];
+		}
+	}
+	return result;
+}

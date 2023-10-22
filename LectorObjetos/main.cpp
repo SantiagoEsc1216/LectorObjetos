@@ -3,28 +3,33 @@
 #include <stdlib.h>
 #include <iostream>
 #include "Lector.h"
+#include "Matriz.h"
 
 float grados = 0;
+Lector lector;
+vector<Modelo> modelos;
+Vertice v;
+Matriz t(2.0, 2.0, 3.0, t.MATRIZ_TRASLACION);
+
+
 void display(void)
 {
-	Lector lector;
-	vector<Modelo> modelos;
-	Vertice v;
 
-	modelos = lector.leerArchivo("prueba.obj");
-	
 	/*  clear all pixels  */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glColor3f(1.0, 0.0, 0.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_TRIANGLES);
 	for (Modelo modelo : modelos) {
 		for (Cara cara : modelo.caras) {
 			v = modelo.getVertice(cara.v1);
+			v.setPuntos(t.multiplicar(v.getVertices()));
 			glVertex3f(v.getX(), v.getY(), v.getZ());
 			v = modelo.getVertice(cara.v2);
+			v.setPuntos(t.multiplicar(v.getVertices()));
 			glVertex3f(v.getX(), v.getY(), v.getZ());
 			v = modelo.getVertice(cara.v3);
+			v.setPuntos(t.multiplicar(v.getVertices()));
 			glVertex3f(v.getX(), v.getY(), v.getZ());
 		}
 	}
@@ -36,6 +41,8 @@ void display(void)
 
 void init(void)
 {
+	modelos = lector.leerArchivo("prueba.obj");
+
 	/*  select clearing (background) color       */
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 
@@ -51,7 +58,7 @@ void init(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(7.3, 6.9, 4.9, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0, 0, 27, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	glEnable(GL_DEPTH_TEST);
 
