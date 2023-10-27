@@ -14,6 +14,8 @@ public:
 	static const int EJE_Z = 5;
 	vector<vector<float>> matriz;
 	int tipo;
+	float grado;
+	float incremento;
 
 	Matriz();
 	Matriz(float x, float y, float z, int tipo);
@@ -21,5 +23,6 @@ public:
 	Matriz(vector<vector<float>> m);
 	vector<vector<float>> multiplicar(vector<vector<float>> matriz2);
 	vector<float> multiplicar(vector<float> v);
+	void incrementar();
 };
 

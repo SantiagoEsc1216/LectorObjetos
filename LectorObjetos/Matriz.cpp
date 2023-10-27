@@ -34,7 +34,7 @@ Matriz::Matriz(float x, float y, float z, int tipo) {
 Matriz::Matriz(float grados, int eje) {
 	double pi = 3.14159265359;
 	double radianes = grados * (pi / 180.0);
-
+	grado = 0;
 	this->tipo = MATRIZ_ROTACION;
 	matriz.resize(4, vector<float>(4, 0.0));
 
@@ -75,4 +75,26 @@ vector<float> Matriz::multiplicar(vector<float> v){
 		}
 	}
 	return result;
+}
+
+void Matriz::incrementar() {
+	
+	switch (tipo)
+	{
+	case MATRIZ_TRASLACION:
+		this->matriz[0][3] = this->matriz[0][3] + 0.0001;
+		this->matriz[1][3] = this->matriz[1][3] + 0.0001;
+		this->matriz[2][3] = this->matriz[2][3] + 0.0001;
+		break;
+	case MATRIZ_ROTACION:
+		grado = grado + 0.00002;
+		if (grado >= 2 * 3.14159265359) {
+			grado = 0;
+		}
+		matriz[0][0] = matriz[2][2] = cos(grado);
+		matriz[0][2] = sin(grado);
+		matriz[2][0] = -sin(grado);
+	default: 
+		break;
+	}
 }

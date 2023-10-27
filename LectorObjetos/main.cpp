@@ -9,7 +9,8 @@ float grados = 0;
 Lector lector;
 vector<Modelo> modelos;
 Vertice v;
-Matriz t(2.0, 2.0, 3.0, t.MATRIZ_TRASLACION);
+Matriz t(0.0, 0.0, 0.0, t.MATRIZ_TRASLACION);
+Matriz r(10, r.EJE_Y);
 
 
 void display(void)
@@ -17,20 +18,31 @@ void display(void)
 
 	/*  clear all pixels  */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	/*for (Modelo modelo : modelos) {
+		for (Cara cara : modelo.caras) {
+			v = modelo.getVertice(cara.v1);
+			v.setPuntos(t.multiplicar(v.getVertices()));
+			v = modelo.getVertice(cara.v2);
+			v.setPuntos(t.multiplicar(v.getVertices()));
+			v = modelo.getVertice(cara.v3);
+			v.setPuntos(t.multiplicar(v.getVertices()));
+		}
+	}*/
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_TRIANGLES);
 	for (Modelo modelo : modelos) {
 		for (Cara cara : modelo.caras) {
+			Vertice v2;
 			v = modelo.getVertice(cara.v1);
-			v.setPuntos(t.multiplicar(v.getVertices()));
-			glVertex3f(v.getX(), v.getY(), v.getZ());
+			v2.setPuntos(r.multiplicar(v.getVertices()));
+			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 			v = modelo.getVertice(cara.v2);
-			v.setPuntos(t.multiplicar(v.getVertices()));
-			glVertex3f(v.getX(), v.getY(), v.getZ());
+			v2.setPuntos(r.multiplicar(v.getVertices()));
+			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 			v = modelo.getVertice(cara.v3);
-			v.setPuntos(t.multiplicar(v.getVertices()));
-			glVertex3f(v.getX(), v.getY(), v.getZ());
+			v2.setPuntos(r.multiplicar(v.getVertices()));
+			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+			r.incrementar();
 		}
 	}
 	glEnd();
@@ -41,7 +53,7 @@ void display(void)
 
 void init(void)
 {
-	modelos = lector.leerArchivo("prueba.obj");
+	modelos = lector.leerArchivo("pokemon.obj");
 
 	/*  select clearing (background) color       */
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -79,6 +91,7 @@ int main(int argc, char** argv)
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("hello");
 	init();
+
 	glutDisplayFunc(display);
 	//glutPostRedisplay();
 	glutIdleFunc(display);
