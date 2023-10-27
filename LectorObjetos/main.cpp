@@ -6,11 +6,12 @@
 #include "Matriz.h"
 
 float grados = 0;
-Lector lector;
 vector<Modelo> modelos;
 Vertice v;
-Matriz t(0.0, 0.0, 0.0, t.MATRIZ_TRASLACION);
+Matriz po1(50.0, 50.0, 50.0, Matriz::MATRIZ_TRASLACION);
+Matriz p0(0, 0, 0, Matriz::MATRIZ_TRASLACION);
 Matriz r(10, r.EJE_Y);
+Matriz Nave;
 
 
 void display(void)
@@ -18,16 +19,7 @@ void display(void)
 
 	/*  clear all pixels  */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	/*for (Modelo modelo : modelos) {
-		for (Cara cara : modelo.caras) {
-			v = modelo.getVertice(cara.v1);
-			v.setPuntos(t.multiplicar(v.getVertices()));
-			v = modelo.getVertice(cara.v2);
-			v.setPuntos(t.multiplicar(v.getVertices()));
-			v = modelo.getVertice(cara.v3);
-			v.setPuntos(t.multiplicar(v.getVertices()));
-		}
-	}*/
+
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_TRIANGLES);
 	for (Modelo modelo : modelos) {
@@ -53,8 +45,18 @@ void display(void)
 
 void init(void)
 {
-	modelos = lector.leerArchivo("pokemon.obj");
+	Lector lector;
+	modelos.push_back(lector.leerArchivo("objeto.obj"));
+	modelos.push_back(lector.leerArchivo("objeto2.obj"));
 
+	for (Cara cara : modelos[0].caras) {
+		v = modelos[0].getVertice(cara.v1);
+		v.setPuntos(po1.multiplicar(v.getVertices()));
+		v = modelos[0].getVertice(cara.v2);
+		v.setPuntos(po1.multiplicar(v.getVertices()));
+		v = modelos[0].getVertice(cara.v3);
+		v.setPuntos(po1.multiplicar(v.getVertices()));
+	}
 	/*  select clearing (background) color       */
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 

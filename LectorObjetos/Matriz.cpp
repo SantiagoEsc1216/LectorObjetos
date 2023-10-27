@@ -41,10 +41,10 @@ Matriz::Matriz(float grados, int eje) {
 	switch (eje)
 	{
 	case EJE_Y:
-		matriz[0][0] = matriz[2][2] = cos(radianes);
+		matriz[0][0] = matriz[2][2] = cos(grado);
 		matriz[1][1] = 1;
-		matriz[0][2] = sin(radianes);
-		matriz[2][0] = -sin(radianes);
+		matriz[0][2] = sin(grado);
+		matriz[2][0] = -sin(grado);
 		matriz[3][3] = 1;
 		break;
 	default:
