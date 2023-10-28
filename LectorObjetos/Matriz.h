@@ -24,5 +24,6 @@ public:
 	vector<vector<float>> multiplicar(vector<vector<float>> matriz2);
 	vector<float> multiplicar(vector<float> v);
 	void incrementar();
+	Matriz operator=(Matriz& other);
 };
 

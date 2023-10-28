@@ -8,10 +8,10 @@
 float grados = 0;
 vector<Modelo> modelos;
 Vertice v;
-Matriz po1(50.0, 50.0, 50.0, Matriz::MATRIZ_TRASLACION);
+Matriz po1(0.0, 5.0, 0.0, Matriz::MATRIZ_TRASLACION);
 Matriz p0(0, 0, 0, Matriz::MATRIZ_TRASLACION);
 Matriz r(10, r.EJE_Y);
-Matriz Nave;
+Matriz mult(r.multiplicar(po1.matriz));
 
 
 void display(void)
@@ -22,7 +22,7 @@ void display(void)
 
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_TRIANGLES);
-	for (Modelo modelo : modelos) {
+	/*for (Modelo modelo : modelos) {
 		for (Cara cara : modelo.caras) {
 			Vertice v2;
 			v = modelo.getVertice(cara.v1);
@@ -36,6 +36,36 @@ void display(void)
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 			r.incrementar();
 		}
+	}*/
+	Modelo modelo = modelos[1];
+	for (Cara cara : modelo.caras) {
+		Vertice v2;
+		v = modelo.getVertice(cara.v1);
+		v2.setPuntos(r.multiplicar(v.getVertices()));
+		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+		v = modelo.getVertice(cara.v2);
+		v2.setPuntos(r.multiplicar(v.getVertices()));
+		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+		v = modelo.getVertice(cara.v3);
+		v2.setPuntos(r.multiplicar(v.getVertices()));
+		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+		r.incrementar();
+	}
+
+	modelo = modelos[0];
+	for (Cara cara : modelo.caras) {
+		Vertice v2;
+		v = modelo.getVertice(cara.v1);
+		v2.setPuntos(mult.multiplicar(v.getVertices()));
+		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+		v = modelo.getVertice(cara.v2);
+		v2.setPuntos(mult.multiplicar(v.getVertices()));
+		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+		v = modelo.getVertice(cara.v3);
+		v2.setPuntos(mult.multiplicar(v.getVertices()));
+		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+		po1.incrementar();
+		mult.
 	}
 	glEnd();
 
@@ -46,17 +76,9 @@ void display(void)
 void init(void)
 {
 	Lector lector;
-	modelos.push_back(lector.leerArchivo("objeto.obj"));
-	modelos.push_back(lector.leerArchivo("objeto2.obj"));
+	modelos.push_back(lector.leerArchivo("cruz.obj"));
+	modelos.push_back(lector.leerArchivo("cruz2.obj"));
 
-	for (Cara cara : modelos[0].caras) {
-		v = modelos[0].getVertice(cara.v1);
-		v.setPuntos(po1.multiplicar(v.getVertices()));
-		v = modelos[0].getVertice(cara.v2);
-		v.setPuntos(po1.multiplicar(v.getVertices()));
-		v = modelos[0].getVertice(cara.v3);
-		v.setPuntos(po1.multiplicar(v.getVertices()));
-	}
 	/*  select clearing (background) color       */
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 
