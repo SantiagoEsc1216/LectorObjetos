@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <cmath>
+#include "Vertice.h"
 
 using std::vector;
 class Matriz
@@ -14,16 +15,17 @@ public:
 	static const int EJE_Z = 5;
 	vector<vector<float>> matriz;
 	int tipo;
+	int eje;
 	float grado;
-	float incremento;
+
 
 	Matriz();
 	Matriz(float x, float y, float z, int tipo);
 	Matriz(float grados, int eje);
 	Matriz(vector<vector<float>> m);
+	Matriz(Vertice v);
 	vector<vector<float>> multiplicar(vector<vector<float>> matriz2);
 	vector<float> multiplicar(vector<float> v);
 	void incrementar();
-	Matriz operator=(Matriz& other);
 };
 

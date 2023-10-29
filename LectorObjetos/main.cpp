@@ -4,15 +4,18 @@
 #include <iostream>
 #include "Lector.h"
 #include "Matriz.h"
+#include "Bezier.h"
 
 float grados = 0;
 vector<Modelo> modelos;
-Vertice v;
-Matriz po1(0.0, 5.0, 0.0, Matriz::MATRIZ_TRASLACION);
+Matriz po1(0.0, 0.0, 10.0, Matriz::MATRIZ_TRASLACION);
+Matriz pmModelo1;
 Matriz p0(0, 0, 0, Matriz::MATRIZ_TRASLACION);
 Matriz r(10, r.EJE_Y);
-Matriz mult(r.multiplicar(po1.matriz));
-
+Vertice c1[4] = { Vertice(0, 0, -5, -1), Vertice(10, 0, -5, -1), Vertice(10, 0, 5, -1), Vertice(0, 0, 5, -1) };
+Vertice c2[4] = { Vertice(0, 0, 5, -1), Vertice(-10, 0, 5, -1),  Vertice(-10, 0, -5, -1),  Vertice(0, 0, -5, -1) };
+Bezier b1(c1, 0.00001);
+Bezier b2(c2, 0.00001);
 
 void display(void)
 {
@@ -37,8 +40,9 @@ void display(void)
 			r.incrementar();
 		}
 	}*/
-	Modelo modelo = modelos[1];
+	Modelo modelo = modelos[0];
 	for (Cara cara : modelo.caras) {
+		Vertice v;
 		Vertice v2;
 		v = modelo.getVertice(cara.v1);
 		v2.setPuntos(r.multiplicar(v.getVertices()));
@@ -48,25 +52,52 @@ void display(void)
 		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 		v = modelo.getVertice(cara.v3);
 		v2.setPuntos(r.multiplicar(v.getVertices()));
-		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+		glVertex3f(v2.getX(), v2.getY(), v2.getZ()); 
 		r.incrementar();
 	}
 
-	modelo = modelos[0];
-	for (Cara cara : modelo.caras) {
-		Vertice v2;
-		v = modelo.getVertice(cara.v1);
-		v2.setPuntos(mult.multiplicar(v.getVertices()));
-		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-		v = modelo.getVertice(cara.v2);
-		v2.setPuntos(mult.multiplicar(v.getVertices()));
-		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-		v = modelo.getVertice(cara.v3);
-		v2.setPuntos(mult.multiplicar(v.getVertices()));
-		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-		po1.incrementar();
-		mult.
+	modelo = modelos[1];
+	if (b1.get_t() < 1) {
+		for (Cara cara : modelo.caras) {
+			Vertice v;
+			Vertice v2;
+			Matriz m(b1.getPoint());
+			v = modelo.getVertice(cara.v1);
+			v2.setPuntos(m.multiplicar(v.getVertices()));
+			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+			v = modelo.getVertice(cara.v2);
+			v2.setPuntos(m.multiplicar(v.getVertices()));
+			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+			v = modelo.getVertice(cara.v3);
+			v2.setPuntos(m.multiplicar(v.getVertices()));
+			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+			b1.incrementar();
+		}
 	}
+	else {
+		if (b2.get_t() < 1) {
+			for (Cara cara : modelo.caras) {
+				Vertice v;
+				Vertice v2;
+				Matriz m(b2.getPoint());
+				v = modelo.getVertice(cara.v1);
+				v2.setPuntos(m.multiplicar(v.getVertices()));
+				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+				v = modelo.getVertice(cara.v2);
+				v2.setPuntos(m.multiplicar(v.getVertices()));
+				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+				v = modelo.getVertice(cara.v3);
+				v2.setPuntos(m.multiplicar(v.getVertices()));
+				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+				b2.incrementar();
+			}
+		}
+		else {
+			b1.reset();
+			b2.reset();
+		}
+	}
+
 	glEnd();
 
 	glutSwapBuffers();
@@ -76,8 +107,37 @@ void display(void)
 void init(void)
 {
 	Lector lector;
-	modelos.push_back(lector.leerArchivo("cruz.obj"));
-	modelos.push_back(lector.leerArchivo("cruz2.obj"));
+	modelos.push_back(lector.leerArchivo("objeto.obj"));
+	modelos.push_back(lector.leerArchivo("objeto2.obj"));
+
+	Modelo modelo;
+	float cv = 0;
+	float tx, ty, tz, x, y ,z;
+	tx = ty = tz = 0;
+
+	modelo = modelos[1];
+	for (Cara cara : modelo.caras) {
+		Vertice v;
+		Matriz m(b2.getPoint());
+		v = modelo.getVertice(cara.v1);
+		tx += v.getX();
+		ty += v.getY();
+		tz += v.getZ();
+		v = modelo.getVertice(cara.v2);
+		tx += v.getX();
+		ty += v.getY();
+		tz += v.getZ();
+		v = modelo.getVertice(cara.v3);
+		tx += v.getX();
+		ty += v.getY();
+		tz += v.getZ();
+		cv += 3;
+	}
+	x = tx / (cv * 3);
+	y = ty / (cv * 3);
+	z = tz / (cv * 3);
+
+	pmModelo1 = new Modelo(x, y, z, Matriz::MATRIZ_TRASLACION);
 
 	/*  select clearing (background) color       */
 	glClearColor(0.0, 0.0, 0.0, 0.0);
