@@ -27,5 +27,6 @@ public:
 	vector<vector<float>> multiplicar(vector<vector<float>> matriz2);
 	vector<float> multiplicar(vector<float> v);
 	void incrementar();
+	void setMatriz(float x, float y, float z, int tipo);
 };
 

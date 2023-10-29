@@ -109,7 +109,6 @@ void init(void)
 	Lector lector;
 	modelos.push_back(lector.leerArchivo("objeto.obj"));
 	modelos.push_back(lector.leerArchivo("objeto2.obj"));
-
 	Modelo modelo;
 	float cv = 0;
 	float tx, ty, tz, x, y ,z;
@@ -118,16 +117,19 @@ void init(void)
 	modelo = modelos[1];
 	for (Cara cara : modelo.caras) {
 		Vertice v;
-		Matriz m(b2.getPoint());
+		Matriz m(b1.getPoint());
 		v = modelo.getVertice(cara.v1);
+		v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
 		tz += v.getZ();
 		v = modelo.getVertice(cara.v2);
+		v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
 		tz += v.getZ();
 		v = modelo.getVertice(cara.v3);
+		v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
 		tz += v.getZ();
@@ -137,7 +139,7 @@ void init(void)
 	y = ty / (cv * 3);
 	z = tz / (cv * 3);
 
-	pmModelo1 = new Modelo(x, y, z, Matriz::MATRIZ_TRASLACION);
+	pmModelo1.setMatriz(x, y, z, Matriz::MATRIZ_TRASLACION);
 
 	/*  select clearing (background) color       */
 	glClearColor(0.0, 0.0, 0.0, 0.0);
