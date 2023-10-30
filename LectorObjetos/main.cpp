@@ -11,9 +11,10 @@ vector<Modelo> modelos;
 Matriz po1(0.0, 0.0, 10.0, Matriz::MATRIZ_TRASLACION);
 Matriz pmModelo1;
 Matriz p0(0, 0, 0, Matriz::MATRIZ_TRASLACION);
-Matriz r(10, r.EJE_Y);
-Vertice c1[4] = { Vertice(0, 0, -5, -1), Vertice(10, 0, -5, -1), Vertice(10, 0, 5, -1), Vertice(0, 0, 5, -1) };
-Vertice c2[4] = { Vertice(0, 0, 5, -1), Vertice(-10, 0, 5, -1),  Vertice(-10, 0, -5, -1),  Vertice(0, 0, -5, -1) };
+Matriz r(0.001, r.EJE_Y);
+Matriz r2(-0.0016, r.EJE_Y);
+Vertice c1[4] = { Vertice(0, 0, -10, -1), Vertice(10, 0, -10, -1), Vertice(10, 0, 10, -1), Vertice(0, 0, 10, -1) };
+Vertice c2[4] = { Vertice(0, 0, 10, -1), Vertice(-10, 0, 10, -1),  Vertice(-10, 0, -10, -1),  Vertice(0, 0, -10, -1) };
 Bezier b1(c1, 0.00001);
 Bezier b2(c2, 0.00001);
 
@@ -63,15 +64,19 @@ void display(void)
 			Vertice v2;
 			Matriz m(b1.getPoint());
 			v = modelo.getVertice(cara.v1);
-			v2.setPuntos(m.multiplicar(v.getVertices()));
+			v2.setPuntos(r2.multiplicar(v.getVertices()));
+			v2.setPuntos(m.multiplicar(v2.getVertices()));
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 			v = modelo.getVertice(cara.v2);
-			v2.setPuntos(m.multiplicar(v.getVertices()));
+			v2.setPuntos(r2.multiplicar(v.getVertices()));
+			v2.setPuntos(m.multiplicar(v2.getVertices()));
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 			v = modelo.getVertice(cara.v3);
-			v2.setPuntos(m.multiplicar(v.getVertices()));
+			v2.setPuntos(r2.multiplicar(v.getVertices()));
+			v2.setPuntos(m.multiplicar(v2.getVertices()));
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 			b1.incrementar();
+			r2.incrementar();
 		}
 	}
 	else {
@@ -81,15 +86,19 @@ void display(void)
 				Vertice v2;
 				Matriz m(b2.getPoint());
 				v = modelo.getVertice(cara.v1);
-				v2.setPuntos(m.multiplicar(v.getVertices()));
+				v2.setPuntos(r2.multiplicar(v.getVertices()));
+				v2.setPuntos(m.multiplicar(v2.getVertices()));
 				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 				v = modelo.getVertice(cara.v2);
-				v2.setPuntos(m.multiplicar(v.getVertices()));
+				v2.setPuntos(r2.multiplicar(v.getVertices()));
+				v2.setPuntos(m.multiplicar(v2.getVertices()));
 				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 				v = modelo.getVertice(cara.v3);
-				v2.setPuntos(m.multiplicar(v.getVertices()));
+				v2.setPuntos(r2.multiplicar(v.getVertices()));
+				v2.setPuntos(m.multiplicar(v2.getVertices()));
 				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 				b2.incrementar();
+				r2.incrementar();
 			}
 		}
 		else {
@@ -107,8 +116,7 @@ void display(void)
 void init(void)
 {
 	Lector lector;
-	modelos.push_back(lector.leerArchivo("objeto.obj"));
-	modelos.push_back(lector.leerArchivo("objeto2.obj"));
+	modelos = lector.leerArchivo("proyecto.obj");
 	Modelo modelo;
 	float cv = 0;
 	float tx, ty, tz, x, y ,z;
@@ -156,7 +164,8 @@ void init(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(0, 0, 27, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	//gluLookAt(5, 30, 0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(30, 10, 0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	glEnable(GL_DEPTH_TEST);
 

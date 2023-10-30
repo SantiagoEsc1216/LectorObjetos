@@ -6,7 +6,7 @@ Lector::Lector() {
 	indexModelo = -1;
 }
 
-Modelo Lector::leerArchivo(string archivo) {
+vector<Modelo> Lector::leerArchivo(string archivo) {
 	vector <string> lineas;
 	ifstream file(archivo);
 	if (!file.is_open()) {
@@ -31,7 +31,7 @@ Modelo Lector::leerArchivo(string archivo) {
 			}
 		}
 	}
-	return modelos[0];
+	return modelos;
 }
 
 void Lector::guardarModelo(string linea) {

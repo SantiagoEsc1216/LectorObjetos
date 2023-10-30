@@ -16,7 +16,7 @@ public:
 	vector<vector<float>> matriz;
 	int tipo;
 	int eje;
-	float grado;
+	float grado, vel;
 
 
 	Matriz();

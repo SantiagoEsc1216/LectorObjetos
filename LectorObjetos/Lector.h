@@ -20,7 +20,7 @@ public:
 
 	Lector();
 
-	Modelo leerArchivo(string archivo);
+	vector<Modelo> leerArchivo(string archivo);
 
 	void guardarModelo(string linea);
 	void guardarVertice(string linea);

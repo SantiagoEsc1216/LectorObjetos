@@ -74,9 +74,10 @@ Matriz::Matriz(Vertice v) {
 Matriz::Matriz(float grados, int eje) {
 	double pi = 3.14159265359;
 	double radianes = grados * (pi / 180.0);
-	grado = 0;
+	grado = radianes;
 	this->tipo = MATRIZ_ROTACION;
 	this->eje = -1;
+	vel = grado;
 	matriz.resize(4, vector<float>(4, 0.0));
 
 	switch (eje)
@@ -128,7 +129,6 @@ vector<float> Matriz::multiplicar(vector<float> v){
 }
 
 void Matriz::incrementar() {
-	
 	switch (tipo)
 	{
 	case MATRIZ_TRASLACION:
@@ -137,21 +137,21 @@ void Matriz::incrementar() {
 		this->matriz[2][3] = this->matriz[2][3] + matriz[2][3] * 0.0001;
 		break;
 	case MATRIZ_ROTACION:
-		grado = grado + 0.00002;
-		if (grado >= 2 * 3.14159265359) {
-			grado = 0;
+		vel += grado;
+		if (vel >= 2 * 3.14159265359) {
+			vel = grado;
 		}
 		switch (eje)
 		{
 		case EJE_Y:
-			matriz[0][0] = matriz[2][2] = cos(grado);
-			matriz[0][2] = sin(grado);
-			matriz[2][0] = -sin(grado);
+			matriz[0][0] = matriz[2][2] = cos(vel);
+			matriz[0][2] = sin(vel);
+			matriz[2][0] = -sin(vel);
 			break;
 		case EJE_X:
-			matriz[1][1] = matriz[2][2] = cos(grado);
-			matriz[2][1] = sin(grado);
-			matriz[1][2] = -sin(grado);
+			matriz[1][1] = matriz[2][2] = cos(vel);
+			matriz[2][1] = sin(vel);
+			matriz[1][2] = -sin(vel);
 			break;
 		default:
 			break;
