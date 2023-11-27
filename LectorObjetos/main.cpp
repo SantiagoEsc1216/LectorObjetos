@@ -41,7 +41,7 @@ void display(void)
 			r.incrementar();
 		}
 	}*/
-	Modelo modelo = modelos[0];
+	Modelo modelo = modelos[1];
 	for (Cara cara : modelo.caras) {
 		Vertice v;
 		Vertice v2;
@@ -57,7 +57,7 @@ void display(void)
 		r.incrementar();
 	}
 
-	modelo = modelos[1];
+	modelo = modelos[0];
 	if (b1.get_t() < 1) {
 		for (Cara cara : modelo.caras) {
 			Vertice v;
@@ -116,13 +116,13 @@ void display(void)
 void init(void)
 {
 	Lector lector;
-	modelos = lector.leerArchivo("proyecto.obj");
+	modelos = lector.leerArchivo("proyectoLow.obj");
 	Modelo modelo;
 	float cv = 0;
 	float tx, ty, tz, x, y ,z;
 	tx = ty = tz = 0;
 
-	modelo = modelos[1];
+	modelo = modelos[0];
 	for (Cara cara : modelo.caras) {
 		Vertice v;
 		Matriz m(b1.getPoint());
