@@ -7,6 +7,7 @@
 #include "Bezier.h"
 
 float grados = 0;
+Modelo xwing, death;
 vector<Modelo> modelos;
 Matriz po1(0.0, 0.0, 10.0, Matriz::MATRIZ_TRASLACION);
 Matriz pmModelo1;
@@ -41,37 +42,39 @@ void display(void)
 			r.incrementar();
 		}
 	}*/
-	Modelo modelo = modelos[1];
-	for (Cara cara : modelo.caras) {
+
+	glColor3f(0.5, 0.5, 0.5);
+	for (Cara cara : death.caras) {
 		Vertice v;
 		Vertice v2;
-		v = modelo.getVertice(cara.v1);
+		v = death.getVertice(cara.v1);
 		v2.setPuntos(r.multiplicar(v.getVertices()));
 		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-		v = modelo.getVertice(cara.v2);
+		v = death.getVertice(cara.v2);
 		v2.setPuntos(r.multiplicar(v.getVertices()));
 		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-		v = modelo.getVertice(cara.v3);
+		v = death.getVertice(cara.v3);
 		v2.setPuntos(r.multiplicar(v.getVertices()));
 		glVertex3f(v2.getX(), v2.getY(), v2.getZ()); 
 		r.incrementar();
 	}
 
-	modelo = modelos[0];
+	glColor3f(1.0, 0.5, 0.0);
+
 	if (b1.get_t() < 1) {
-		for (Cara cara : modelo.caras) {
+		for (Cara cara : xwing.caras) {
 			Vertice v;
 			Vertice v2;
 			Matriz m(b1.getPoint());
-			v = modelo.getVertice(cara.v1);
+			v = xwing.getVertice(cara.v1);
 			v2.setPuntos(r2.multiplicar(v.getVertices()));
 			v2.setPuntos(m.multiplicar(v2.getVertices()));
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-			v = modelo.getVertice(cara.v2);
+			v = xwing.getVertice(cara.v2);
 			v2.setPuntos(r2.multiplicar(v.getVertices()));
 			v2.setPuntos(m.multiplicar(v2.getVertices()));
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-			v = modelo.getVertice(cara.v3);
+			v = xwing.getVertice(cara.v3);
 			v2.setPuntos(r2.multiplicar(v.getVertices()));
 			v2.setPuntos(m.multiplicar(v2.getVertices()));
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
@@ -81,19 +84,19 @@ void display(void)
 	}
 	else {
 		if (b2.get_t() < 1) {
-			for (Cara cara : modelo.caras) {
+			for (Cara cara : xwing.caras) {
 				Vertice v;
 				Vertice v2;
 				Matriz m(b2.getPoint());
-				v = modelo.getVertice(cara.v1);
+				v = xwing.getVertice(cara.v1);
 				v2.setPuntos(r2.multiplicar(v.getVertices()));
 				v2.setPuntos(m.multiplicar(v2.getVertices()));
 				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-				v = modelo.getVertice(cara.v2);
+				v = xwing.getVertice(cara.v2);
 				v2.setPuntos(r2.multiplicar(v.getVertices()));
 				v2.setPuntos(m.multiplicar(v2.getVertices()));
 				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
-				v = modelo.getVertice(cara.v3);
+				v = xwing.getVertice(cara.v3);
 				v2.setPuntos(r2.multiplicar(v.getVertices()));
 				v2.setPuntos(m.multiplicar(v2.getVertices()));
 				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
@@ -117,26 +120,26 @@ void init(void)
 {
 	Lector lector;
 	modelos = lector.leerArchivo("proyectoLow.obj");
-	Modelo modelo;
 	float cv = 0;
 	float tx, ty, tz, x, y ,z;
 	tx = ty = tz = 0;
 
-	modelo = modelos[0];
-	for (Cara cara : modelo.caras) {
+	death = modelos[1];
+	xwing = modelos[0];
+	for (Cara cara : xwing.caras) {
 		Vertice v;
 		Matriz m(b1.getPoint());
-		v = modelo.getVertice(cara.v1);
+		v = xwing.getVertice(cara.v1);
 		v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
 		tz += v.getZ();
-		v = modelo.getVertice(cara.v2);
+		v = xwing.getVertice(cara.v2);
 		v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
 		tz += v.getZ();
-		v = modelo.getVertice(cara.v3);
+		v = xwing.getVertice(cara.v3);
 		v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
@@ -146,6 +149,8 @@ void init(void)
 	x = tx / (cv * 3);
 	y = ty / (cv * 3);
 	z = tz / (cv * 3);
+
+
 
 	pmModelo1.setMatriz(x, y, z, Matriz::MATRIZ_TRASLACION);
 
