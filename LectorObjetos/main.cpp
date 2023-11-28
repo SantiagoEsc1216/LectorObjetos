@@ -18,6 +18,27 @@ Vertice c1[4] = { Vertice(0, 0, -10, -1), Vertice(10, 0, -10, -1), Vertice(10, 0
 Vertice c2[4] = { Vertice(0, 0, 10, -1), Vertice(-10, 0, 10, -1),  Vertice(-10, 0, -10, -1),  Vertice(0, 0, -10, -1) };
 Bezier b1(c1, 0.00001);
 Bezier b2(c2, 0.00001);
+Vertice colorXwing(1.0, 0.5, 0.0, -1);
+Vertice colorDeath(0.5, 0.5, 0.5, -1);
+float intensidadAmb = 0.5;
+float intensidadF1 = 0.8;
+//origen, objetivo
+Vertice f1[2] = { Vertice(0,0,20,-1), Vertice(0,0,25,-1) };
+
+Vertice intensidadColor(Vertice v1, Vertice v2, Vertice v3, float IA, float IF, Vertice* F, Vertice color) {
+	Vertice v1v2 = v1.getVector(v2);
+	Vertice v1v3 = v1.getVector(v3);
+	Vertice normal = v1v2.prodCross(v1v3);
+	normal.normalizar();
+	Vertice direccion = F[0].getVector(F[1]);
+	direccion.normalizar();
+	float factor = direccion.prodPoint(normal);
+	float R = (IA * color.x) + (IF * factor);
+	float G = (IA * color.y) + (IF * factor);
+	float B = (IA * color.z) + (IF * factor);
+	return Vertice(R, G, B, -1);
+	
+}
 
 void display(void)
 {
@@ -45,17 +66,19 @@ void display(void)
 
 	glColor3f(0.5, 0.5, 0.5);
 	for (Cara cara : death.caras) {
-		Vertice v;
-		Vertice v2;
+		Vertice v1, v2, v3, v;
+
 		v = death.getVertice(cara.v1);
-		v2.setPuntos(r.multiplicar(v.getVertices()));
-		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+		v1.setPuntos(r.multiplicar(v.getVertices()));
 		v = death.getVertice(cara.v2);
 		v2.setPuntos(r.multiplicar(v.getVertices()));
-		glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 		v = death.getVertice(cara.v3);
-		v2.setPuntos(r.multiplicar(v.getVertices()));
+		v3.setPuntos(r.multiplicar(v.getVertices()));
+		Vertice c = intensidadColor(v1, v2, v3, intensidadAmb, intensidadF1, f1, colorDeath);
+		glColor3f(c.x, c.y, c.z);
+		glVertex3f(v1.getX(), v1.getY(), v1.getZ());
 		glVertex3f(v2.getX(), v2.getY(), v2.getZ()); 
+		glVertex3f(v3.getX(), v3.getY(), v3.getZ());
 		r.incrementar();
 	}
 
@@ -63,21 +86,26 @@ void display(void)
 
 	if (b1.get_t() < 1) {
 		for (Cara cara : xwing.caras) {
-			Vertice v;
-			Vertice v2;
+			Vertice v, v1, v2, v3;
 			Matriz m(b1.getPoint());
 			v = xwing.getVertice(cara.v1);
-			v2.setPuntos(r2.multiplicar(v.getVertices()));
-			v2.setPuntos(m.multiplicar(v2.getVertices()));
-			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+			v1.setPuntos(r2.multiplicar(v.getVertices()));
+			v1.setPuntos(m.multiplicar(v1.getVertices()));
+
 			v = xwing.getVertice(cara.v2);
 			v2.setPuntos(r2.multiplicar(v.getVertices()));
 			v2.setPuntos(m.multiplicar(v2.getVertices()));
-			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+
 			v = xwing.getVertice(cara.v3);
-			v2.setPuntos(r2.multiplicar(v.getVertices()));
-			v2.setPuntos(m.multiplicar(v2.getVertices()));
+			v3.setPuntos(r2.multiplicar(v.getVertices()));
+			v3.setPuntos(m.multiplicar(v3.getVertices()));
+
+			Vertice c = intensidadColor(v1, v2, v3, intensidadAmb, intensidadF1, f1, colorXwing);
+			glColor3f(c.x, c.y, c.z);
+
+			glVertex3f(v1.getX(), v1.getY(), v1.getZ());
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+			glVertex3f(v3.getX(), v3.getY(), v3.getZ());
 			b1.incrementar();
 			r2.incrementar();
 		}
@@ -85,21 +113,26 @@ void display(void)
 	else {
 		if (b2.get_t() < 1) {
 			for (Cara cara : xwing.caras) {
-				Vertice v;
-				Vertice v2;
+				Vertice v, v1, v2, v3;
 				Matriz m(b2.getPoint());
 				v = xwing.getVertice(cara.v1);
-				v2.setPuntos(r2.multiplicar(v.getVertices()));
-				v2.setPuntos(m.multiplicar(v2.getVertices()));
-				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+				v1.setPuntos(r2.multiplicar(v.getVertices()));
+				v1.setPuntos(m.multiplicar(v1.getVertices()));
+
 				v = xwing.getVertice(cara.v2);
 				v2.setPuntos(r2.multiplicar(v.getVertices()));
 				v2.setPuntos(m.multiplicar(v2.getVertices()));
-				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+
 				v = xwing.getVertice(cara.v3);
-				v2.setPuntos(r2.multiplicar(v.getVertices()));
-				v2.setPuntos(m.multiplicar(v2.getVertices()));
+				v3.setPuntos(r2.multiplicar(v.getVertices()));
+				v3.setPuntos(m.multiplicar(v3.getVertices()));
+
+				Vertice c = intensidadColor(v1, v2, v3, intensidadAmb, intensidadF1, f1, colorXwing);
+				glColor3f(c.x, c.y, c.z);
+
+				glVertex3f(v1.getX(), v1.getY(), v1.getZ());
 				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
+				glVertex3f(v3.getX(), v3.getY(), v3.getZ());
 				b2.incrementar();
 				r2.incrementar();
 			}

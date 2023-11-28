@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="Bezier.h" />
     <ClInclude Include="Cara.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Lector.h" />
     <ClInclude Include="Matriz.h" />
     <ClInclude Include="Modelo.h" />
@@ -138,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="Bezier.cpp" />
     <ClCompile Include="Cara.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Lector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matriz.cpp" />

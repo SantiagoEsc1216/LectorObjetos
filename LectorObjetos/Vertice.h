@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <cmath>
 using std::vector;
 class Vertice
 {
@@ -18,5 +19,13 @@ public:
 	float getY();
 	float getZ();
 	vector<float> getVertices();
+	Vertice getVector(Vertice v);
+	float prodPoint(Vertice v);
+	Vertice prodCross(Vertice v);
+	void normalizar();
+	float getMagnitud();
+	void escalar(float factor);
+	void sumar(Vertice v);
+
 };
 
