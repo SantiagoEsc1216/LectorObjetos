@@ -5,9 +5,11 @@
 #include "Lector.h"
 #include "Matriz.h"
 #include "Bezier.h"
+#include <random>
 
+int NEstrellas = 228;
 float grados = 0;
-Modelo xwing, death;
+Modelo xwing, death, sol;
 vector<Modelo> modelos;
 Matriz po1(0.0, 0.0, 10.0, Matriz::MATRIZ_TRASLACION);
 Matriz pmModelo1;
@@ -23,7 +25,7 @@ Vertice colorDeath(0.5, 0.5, 0.5, -1);
 float intensidadAmb = 0.5;
 float intensidadF1 = 0.8;
 //origen, objetivo
-Vertice f1[2] = { Vertice(0,0,20,-1), Vertice(0,0,25,-1) };
+Vertice f1[2] = { Vertice(0,0,20,-1), Vertice(0,0,0,-1) };
 
 Vertice intensidadColor(Vertice v1, Vertice v2, Vertice v3, float IA, float IF, Vertice* F, Vertice color) {
 	Vertice v1v2 = v1.getVector(v2);
@@ -63,6 +65,31 @@ void display(void)
 			r.incrementar();
 		}
 	}*/
+
+	glColor3f(1.0, 1.0, 1.0);
+	for (int i = 2; i < NEstrellas; i++) {
+		for (Cara cara : modelos[i].caras) {
+			Vertice v;
+			v = modelos[i].getVertice(cara.v1);
+			glVertex3f(v.getX(), v.getY(), v.getZ());
+			v = modelos[i].getVertice(cara.v2);
+			glVertex3f(v.getX(), v.getY(), v.getZ());
+			v = modelos[i].getVertice(cara.v3);
+			glVertex3f(v.getX(), v.getY(), v.getZ());
+		}
+	}
+	glColor3f(0.9, 1.0, 0.4);
+
+	for (Cara cara : sol.caras) {
+		Vertice v;
+		Matriz m(b1.getPoint());
+		v = sol.getVertice(cara.v1);
+		glVertex3f(v.getX(), v.getY(), v.getZ());
+		v = sol.getVertice(cara.v2);
+		glVertex3f(v.getX(), v.getY(), v.getZ());
+		v = sol.getVertice(cara.v3);
+		glVertex3f(v.getX(), v.getY(), v.getZ());
+	}
 
 	glColor3f(0.5, 0.5, 0.5);
 	for (Cara cara : death.caras) {
@@ -159,6 +186,8 @@ void init(void)
 
 	death = modelos[1];
 	xwing = modelos[0];
+	sol = modelos[NEstrellas+2];
+
 	for (Cara cara : xwing.caras) {
 		Vertice v;
 		Matriz m(b1.getPoint());
@@ -185,6 +214,7 @@ void init(void)
 
 
 
+
 	pmModelo1.setMatriz(x, y, z, Matriz::MATRIZ_TRASLACION);
 
 	/*  select clearing (background) color       */
@@ -203,7 +233,8 @@ void init(void)
 	glLoadIdentity();
 
 	//gluLookAt(5, 30, 0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	gluLookAt(30, 10, 0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(80, 10, 0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	//gluLookAt(0, 10,90, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	glEnable(GL_DEPTH_TEST);
 
