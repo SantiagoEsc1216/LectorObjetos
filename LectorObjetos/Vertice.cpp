@@ -51,7 +51,7 @@ Vertice Vertice::getVector(Vertice v) {
 	return  Vertice(v.getX() - this->getX(), v.getY() - this->getY(), v.getZ() - this->getZ(), -1);
 }
 float Vertice::prodPoint(Vertice v) {
-	return v.getX() * this->getX() + v.getY() * this->getY() + v.getZ() * this->getZ();
+	return (v.x * x) + (v.y * y) + (v.z * z) ;
 }
 Vertice Vertice::prodCross(Vertice v) {
 	float resultX = (y * v.z) - (z * v.y);

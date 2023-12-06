@@ -94,8 +94,16 @@ Matriz::Matriz(float grados, int eje) {
 		this->eje = EJE_X;
 		matriz[1][1] = matriz[2][2] = cos(grado);
 		matriz[0][0] = 1;
-		matriz[2][1] = sin(grado);
-		matriz[1][2] = -sin(grado);
+		matriz[2][1] = -sin(grado);
+		matriz[1][2] = sin(grado);
+		matriz[3][3] = 1;
+		break;
+	case EJE_Z:
+		this->eje = EJE_Z;
+		matriz[0][0] = matriz[1][1] = cos(grado);
+		matriz[2][2] = 1;
+		matriz[1][0] = -sin(grado);
+		matriz[0][1] = sin(grado);
 		matriz[3][3] = 1;
 		break;
 	default:
@@ -150,8 +158,13 @@ void Matriz::incrementar() {
 			break;
 		case EJE_X:
 			matriz[1][1] = matriz[2][2] = cos(vel);
-			matriz[2][1] = sin(vel);
-			matriz[1][2] = -sin(vel);
+			matriz[2][1] = -sin(vel);
+			matriz[1][2] = sin(vel);
+			break;
+		case EJE_Z:
+			matriz[0][0] = matriz[1][1] = cos(vel);
+			matriz[1][0] = -sin(grado);
+			matriz[0][1] = sin(vel);
 			break;
 		default:
 			break;

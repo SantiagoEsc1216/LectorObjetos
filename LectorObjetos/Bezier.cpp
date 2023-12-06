@@ -6,6 +6,7 @@ Bezier::Bezier(Vertice puntos[4], float vel) {
 	}
 	this->vel = vel;
 	t = 0;
+	incX = incZ = incY = 0;
 }
 Vertice Bezier::getPoint() {
    float x = ((1 - t)* (1 - t)* (1 - t)* puntos[0].getX() +
@@ -23,7 +24,7 @@ Vertice Bezier::getPoint() {
 	   3 * (1 - t) * t * t * puntos[2].getZ() +
 	   t * t * t * puntos[3].getZ());
 
-   Vertice punto(x, y, z, -1);
+   Vertice punto(x + incX, y + incY, z + incZ, -1);
    return punto;
 }
 
@@ -37,4 +38,14 @@ float Bezier::get_t() {
 
 void Bezier::reset() {
 	this->t = 0;
+}
+
+void Bezier::incrementarX(float i) {
+	incX += i;
+}
+void Bezier::incrementarY(float i) {
+	incY += i;
+}
+void Bezier::incrementarZ(float i) {
+	incZ += i;
 }

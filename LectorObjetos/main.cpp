@@ -7,6 +7,7 @@
 #include "Bezier.h"
 #include <random>
 
+bool play = true;
 int NEstrellas = 228;
 float grados = 0;
 Modelo xwing, death, sol;
@@ -15,7 +16,8 @@ Matriz po1(0.0, 0.0, 10.0, Matriz::MATRIZ_TRASLACION);
 Matriz pmModelo1;
 Matriz p0(0, 0, 0, Matriz::MATRIZ_TRASLACION);
 Matriz r(0.001, r.EJE_Y);
-Matriz r2(-0.0016, r.EJE_Y);
+Matriz r2(-0.0015, r.EJE_Y);
+Matriz r3(90.0, r.EJE_Z);
 Vertice c1[4] = { Vertice(0, 0, -10, -1), Vertice(10, 0, -10, -1), Vertice(10, 0, 10, -1), Vertice(0, 0, 10, -1) };
 Vertice c2[4] = { Vertice(0, 0, 10, -1), Vertice(-10, 0, 10, -1),  Vertice(-10, 0, -10, -1),  Vertice(0, 0, -10, -1) };
 Bezier b1(c1, 0.00001);
@@ -25,7 +27,7 @@ Vertice colorDeath(0.5, 0.5, 0.5, -1);
 float intensidadAmb = 0.5;
 float intensidadF1 = 0.8;
 //origen, objetivo
-Vertice f1[2] = { Vertice(0,0,20,-1), Vertice(0,0,0,-1) };
+Vertice f1[2] = { Vertice(0,0,20,-1), Vertice(0,0,15,-1) };
 
 Vertice intensidadColor(Vertice v1, Vertice v2, Vertice v3, float IA, float IF, Vertice* F, Vertice color) {
 	Vertice v1v2 = v1.getVector(v2);
@@ -101,12 +103,14 @@ void display(void)
 		v2.setPuntos(r.multiplicar(v.getVertices()));
 		v = death.getVertice(cara.v3);
 		v3.setPuntos(r.multiplicar(v.getVertices()));
+
 		Vertice c = intensidadColor(v1, v2, v3, intensidadAmb, intensidadF1, f1, colorDeath);
 		glColor3f(c.x, c.y, c.z);
 		glVertex3f(v1.getX(), v1.getY(), v1.getZ());
 		glVertex3f(v2.getX(), v2.getY(), v2.getZ()); 
 		glVertex3f(v3.getX(), v3.getY(), v3.getZ());
-		r.incrementar();
+		if(play) r.incrementar();
+		
 	}
 
 	glColor3f(1.0, 0.5, 0.0);
@@ -116,15 +120,18 @@ void display(void)
 			Vertice v, v1, v2, v3;
 			Matriz m(b1.getPoint());
 			v = xwing.getVertice(cara.v1);
-			v1.setPuntos(r2.multiplicar(v.getVertices()));
+			v1.setPuntos(r3.multiplicar(v.getVertices()));
+			v1.setPuntos(r2.multiplicar(v1.getVertices()));
 			v1.setPuntos(m.multiplicar(v1.getVertices()));
 
 			v = xwing.getVertice(cara.v2);
-			v2.setPuntos(r2.multiplicar(v.getVertices()));
+			v2.setPuntos(r3.multiplicar(v.getVertices()));
+			v2.setPuntos(r2.multiplicar(v2.getVertices()));
 			v2.setPuntos(m.multiplicar(v2.getVertices()));
 
 			v = xwing.getVertice(cara.v3);
-			v3.setPuntos(r2.multiplicar(v.getVertices()));
+			v3.setPuntos(r3.multiplicar(v.getVertices()));
+			v3.setPuntos(r2.multiplicar(v3.getVertices()));
 			v3.setPuntos(m.multiplicar(v3.getVertices()));
 
 			Vertice c = intensidadColor(v1, v2, v3, intensidadAmb, intensidadF1, f1, colorXwing);
@@ -133,8 +140,10 @@ void display(void)
 			glVertex3f(v1.getX(), v1.getY(), v1.getZ());
 			glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 			glVertex3f(v3.getX(), v3.getY(), v3.getZ());
-			b1.incrementar();
-			r2.incrementar();
+			if (play) {
+				b1.incrementar();
+				r2.incrementar();
+			}
 		}
 	}
 	else {
@@ -143,15 +152,18 @@ void display(void)
 				Vertice v, v1, v2, v3;
 				Matriz m(b2.getPoint());
 				v = xwing.getVertice(cara.v1);
-				v1.setPuntos(r2.multiplicar(v.getVertices()));
+				v1.setPuntos(r3.multiplicar(v.getVertices()));
+				v1.setPuntos(r2.multiplicar(v1.getVertices()));
 				v1.setPuntos(m.multiplicar(v1.getVertices()));
 
 				v = xwing.getVertice(cara.v2);
-				v2.setPuntos(r2.multiplicar(v.getVertices()));
+				v2.setPuntos(r3.multiplicar(v.getVertices()));
+				v2.setPuntos(r2.multiplicar(v2.getVertices()));
 				v2.setPuntos(m.multiplicar(v2.getVertices()));
 
 				v = xwing.getVertice(cara.v3);
-				v3.setPuntos(r2.multiplicar(v.getVertices()));
+				v3.setPuntos(r3.multiplicar(v.getVertices()));
+				v3.setPuntos(r2.multiplicar(v3.getVertices()));
 				v3.setPuntos(m.multiplicar(v3.getVertices()));
 
 				Vertice c = intensidadColor(v1, v2, v3, intensidadAmb, intensidadF1, f1, colorXwing);
@@ -160,8 +172,11 @@ void display(void)
 				glVertex3f(v1.getX(), v1.getY(), v1.getZ());
 				glVertex3f(v2.getX(), v2.getY(), v2.getZ());
 				glVertex3f(v3.getX(), v3.getY(), v3.getZ());
-				b2.incrementar();
-				r2.incrementar();
+				if (play) {
+					b2.incrementar();
+					r2.incrementar();
+				}
+
 			}
 		}
 		else {
@@ -192,17 +207,20 @@ void init(void)
 		Vertice v;
 		Matriz m(b1.getPoint());
 		v = xwing.getVertice(cara.v1);
-		v.setPuntos(m.multiplicar(v.getVertices()));
+		//v.setPuntos(r3.multiplicar(v.getVertices()));
+		//v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
 		tz += v.getZ();
 		v = xwing.getVertice(cara.v2);
-		v.setPuntos(m.multiplicar(v.getVertices()));
+		//v.setPuntos(r3.multiplicar(v.getVertices()));
+		//v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
 		tz += v.getZ();
 		v = xwing.getVertice(cara.v3);
-		v.setPuntos(m.multiplicar(v.getVertices()));
+		//v.setPuntos(r3.multiplicar(v.getVertices()));
+		//v.setPuntos(m.multiplicar(v.getVertices()));
 		tx += v.getX();
 		ty += v.getY();
 		tz += v.getZ();
@@ -233,11 +251,36 @@ void init(void)
 	glLoadIdentity();
 
 	//gluLookAt(5, 30, 0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	gluLookAt(80, 10, 0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(60, 10, 0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 	//gluLookAt(0, 10,90, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	glEnable(GL_DEPTH_TEST);
 
+}
+
+void keyboardListen(unsigned char key, int x, int y) {
+	if (key == 'w') {
+		b1.incrementarY(0.1);
+		b2.incrementarY(0.1);
+	}
+	if (key == 's') {
+		b1.incrementarY(-0.1);
+		b2.incrementarY(-0.1);
+	}
+
+	if (key == 'a') {
+		b1.incrementarZ(0.1);
+		b2.incrementarZ(0.1);
+	}
+	if (key == 'd') {
+		b1.incrementarZ(-0.1);
+		b2.incrementarZ(-0.1);
+	}
+}
+void mouseListen(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		play = (play) ? false : true;
+	}
 }
 
 /*
@@ -256,9 +299,13 @@ int main(int argc, char** argv)
 	glutCreateWindow("hello");
 	init();
 
+	glutKeyboardFunc(keyboardListen);
+	glutMouseFunc(mouseListen);
+
 	glutDisplayFunc(display);
 	//glutPostRedisplay();
 	glutIdleFunc(display);
+
 	glutMainLoop();
 
 	return 0;   /* ISO C requires main to return int. */
